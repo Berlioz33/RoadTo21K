@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Carnet semi">
+<title>Carnet de route — Semi-marathon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16202B; --ink-2:#1E2C3A; --slate:#5A7085; --mist:#D9E2E8;
+  --paper:#F6F7F6; --card:#FFFFFF; --signal:#E0A81C;
+  --done:#2F6F4E; --done-soft:#E4EFE8;
+  --warn:#9A6408; --warn-soft:#FBF1DC;
+  --line:#D6DCDF;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+
+.setup{background:#FBF1DC;border-bottom:1px solid #E6D5AC;padding:14px 0;font-size:14px;color:#6B4705}
+.setup .wrap{display:flex;gap:12px;align-items:flex-start}
+.setup b{font-weight:600}
+.setup button{font:inherit;font-size:13px;margin-left:auto;background:none;border:1px solid #C9AE6E;color:#6B4705;padding:4px 10px;border-radius:4px;cursor:pointer;flex:none}
+
+.hero{background:var(--ink);color:#fff;padding:32px 0 0}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(36px,7.5vw,60px);line-height:.95;letter-spacing:-.01em;margin:0 0 6px}
+.hero .sub{color:#9FB2C2;font-size:15px;margin:0 0 24px;max-width:50ch}
+.hero .sub b{color:#fff;font-weight:500}
+
+.stair{display:flex;align-items:flex-end;gap:3px;height:100px;margin-bottom:6px}
+.stair .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.stair .bar{background:#2B3D4E;border-radius:2px 2px 0 0;transition:background .35s ease}
+.stair .col.done .bar{background:var(--signal)}
+.stair .col.race .bar{background:#3A4E60}
+.stair .col.race.done .bar{background:#fff}
+.stair .num{font-family:'Barlow Condensed',sans-serif;font-size:11px;color:#6B8298;text-align:center;padding-top:5px}
+.stair .col.done .num{color:#C9D6E0}
+.stairlab{display:flex;justify-content:space-between;color:#6B8298;font-size:12.5px;padding-bottom:22px;border-bottom:1px solid #2B3D4E}
+
+.counters{display:flex;gap:30px;padding:20px 0 30px;flex-wrap:wrap}
+.counter .v{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:32px;line-height:1;color:#fff}
+.counter .v .of{color:#6B8298;font-size:19px}
+.counter .k{color:#9FB2C2;font-size:13px;margin-top:3px}
+
+.bloc{margin:36px 0 0}
+.bloc-head{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+.bloc-head h2{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;margin:0}
+.bloc-head .rng{color:var(--slate);font-size:13.5px}
+.bloc-goal{color:var(--slate);font-size:14.5px;margin:0 0 18px;max-width:60ch}
+
+.week{background:var(--card);border:1px solid var(--line);border-radius:6px;margin-bottom:12px;overflow:hidden}
+.week.full{border-color:#B6CDBE;background:var(--done-soft)}
+.wk-head{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);background:#FBFBFA}
+.week.full .wk-head{background:transparent;border-bottom-color:#C8DFD1}
+.wk-n{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;line-height:1;min-width:38px}
+.wk-meta{flex:1;font-size:13.5px;color:var(--slate)}
+.wk-tag{font-size:12px;padding:2px 8px;border-radius:3px;background:var(--mist);color:var(--ink-2);white-space:nowrap}
+.wk-tag.peak{background:#F7E7B8;color:#6B5310}
+.wk-tag.race{background:var(--ink);color:#fff}
+
+.sessions{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+.week.full .sessions{background:#C8DFD1}
+.s{background:var(--card);border:0;padding:14px 15px 15px;text-align:left;font:inherit;color:inherit;cursor:pointer;display:flex;flex-direction:column;gap:5px;min-height:140px;width:100%;transition:background .18s ease}
+.s:hover{background:#F4F6F5}
+.s:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.s .kind{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;letter-spacing:.02em;color:var(--slate)}
+.s .title{font-weight:600;font-size:15px;line-height:1.3}
+.s .det{font-size:13px;color:var(--slate);line-height:1.4}
+.s .target{font-size:12.5px;color:#8A99A3;margin-top:2px}
+.s .foot{margin-top:auto;display:flex;align-items:center;gap:9px;padding-top:9px}
+.s .mark{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;flex:none;transition:all .2s ease}
