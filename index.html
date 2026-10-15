@@ -619,8 +619,9 @@ function load(){
   try{ var v=localStorage.getItem(KEY); if(v) fromLocal=JSON.parse(v) }catch(e){}
   var h=(location.hash||'').match(/#d=(.+)$/);
   if(h) fromUrl=fromHash(h[1]);
-  data=merge(fromLocal,fromUrl)||{};
-  if(!Object.keys(data).length) data=JSON.parse(JSON.stringify(SEED));
+  /* L'historique sert de socle : une mémoire de navigateur plus ancienne
+     ou incomplète est complétée, et toute saisie plus riche l'emporte. */
+  data=merge(merge(JSON.parse(JSON.stringify(SEED)),fromLocal),fromUrl)||{};
   paint();
   save();
 }
